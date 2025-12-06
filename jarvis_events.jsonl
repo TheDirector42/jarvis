@@ -1,0 +1,15 @@
+{"kind": "status", "ts": 1765026670.5871906, "session": "f064c7b1-9a2f-4dfa-a270-4d834b05386c", "message": "Model qwen2.5:3b loaded"}
+{"kind": "status", "ts": 1765026670.60113, "session": "f064c7b1-9a2f-4dfa-a270-4d834b05386c", "message": "Jarvis listening for wake word"}
+{"kind": "status", "ts": 1765026681.2094808, "session": "f064c7b1-9a2f-4dfa-a270-4d834b05386c", "message": "Wake word detected"}
+{"kind": "user", "ts": 1765026693.81703, "session": "f064c7b1-9a2f-4dfa-a270-4d834b05386c", "text": "open calculator"}
+{"kind": "assistant", "ts": 1765026724.381055, "session": "f064c7b1-9a2f-4dfa-a270-4d834b05386c", "text": "I have opened the calculator for you. You can start using it now to perform calculations. If you need any help with anything else, feel free to ask!", "latency_ms": 30562.91913986206}
+{"kind": "user", "ts": 1765026738.4291985, "session": "f064c7b1-9a2f-4dfa-a270-4d834b05386c", "text": "3"}
+{"kind": "assistant", "ts": 1765026742.3030176, "session": "f064c7b1-9a2f-4dfa-a270-4d834b05386c", "text": "It seems like you might have intended to ask for the current time in a specific city. Could you please specify which city you're interested in? For example, Paris or London. If you want the current time in multiple cities, let me know and I can fetch that information for you.", "latency_ms": 3872.727870941162}
+{"kind": "user", "ts": 1765026762.1461258, "session": "f064c7b1-9a2f-4dfa-a270-4d834b05386c", "text": "time in London"}
+{"kind": "assistant", "ts": 1765026765.5267346, "session": "f064c7b1-9a2f-4dfa-a270-4d834b05386c", "text": "The current time in London is 01:12 PM.", "latency_ms": 3379.5669078826904}
+{"kind": "user", "ts": 1765026790.8369536, "session": "f064c7b1-9a2f-4dfa-a270-4d834b05386c", "text": "list the most recent files in the download"}
+{"kind": "assistant", "ts": 1765026806.947282, "session": "f064c7b1-9a2f-4dfa-a270-4d834b05386c", "text": "Here are the most recent files in your Downloads folder:\n\n- piper_windows_amd64\n- piper_windows_amd64.zip\n- 2023.11.14-2 source code\n- 2023.11.14-2 source code.zip\n- OllamaSetup.exe\n- Zachary CASUAL EMPLOYMENT AGREEMENT.pdf\n- Low-Poly Pikachu - 376601\n- Low-Poly Pikachu - 376601.zip\n- Cute Mini Octopus  - 3495390\n- Cute Mini Octopus  - 3495390.zip", "latency_ms": 16109.352588653564}
+{"kind": "status", "ts": 1765027180.253832, "session": "4729dbf8-536c-4ae5-ae0f-5c609deb0af3", "message": "Model qwen2.5:3b loaded"}
+{"kind": "status", "ts": 1765027180.269115, "session": "4729dbf8-536c-4ae5-ae0f-5c609deb0af3", "message": "Jarvis listening for wake word"}
+{"kind": "status", "ts": 1765027272.6026893, "session": "4729dbf8-536c-4ae5-ae0f-5c609deb0af3", "message": "Wake word detected"}
+{"kind": "user", "ts": 1765027292.9139667, "session": "4729dbf8-536c-4ae5-ae0f-5c609deb0af3", "text": "give me system insights"}

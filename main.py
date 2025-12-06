@@ -1,6 +1,9 @@
 import os
 import logging
 import time
+import json
+import uuid
+from pathlib import Path
 import pyttsx3
 from dotenv import load_dotenv
 import speech_recognition as sr
@@ -18,13 +21,24 @@ from tools.arp_scan import arp_scan_terminal
 from tools.duckduckgo import duckduckgo_search_tool
 from tools.matrix import matrix_mode
 from tools.screenshot import take_screenshot
+from tools.system_utils import (
+    toggle_system_mute,
+    open_app,
+    read_clipboard,
+    write_clipboard,
+    find_file,
+    list_recent_downloads,
+)
+from tools.system_insights import system_insights
 
 load_dotenv()
 
 MIC_INDEX = None
 TRIGGER_WORD = "jarvis"
 CONVERSATION_TIMEOUT = 30  # seconds of inactivity before exiting conversation mode
-MODEL_NAME = os.getenv("OLLAMA_MODEL", "qwen2.5:3b")
+MODEL_NAME = os.getenv("OLLAMA_MODEL", "qwen2.5:3b")  # must support tools
+LOG_FILE = Path(os.getenv("JARVIS_EVENT_LOG", Path(__file__).parent / "jarvis_events.jsonl"))
+SESSION_ID = str(uuid.uuid4())
 
 logging.basicConfig(level=logging.DEBUG)  # logging
 
@@ -34,9 +48,22 @@ logging.basicConfig(level=logging.DEBUG)  # logging
 recognizer = sr.Recognizer()
 mic = sr.Microphone(device_index=MIC_INDEX)
 
+
+def log_event(kind: str, data: dict):
+    try:
+        LOG_FILE.parent.mkdir(parents=True, exist_ok=True)
+        payload = {"kind": kind, "ts": time.time(), "session": SESSION_ID}
+        payload.update(data)
+        with LOG_FILE.open("a", encoding="utf-8") as f:
+            json.dump(payload, f)
+            f.write("\n")
+    except Exception as e:
+        logging.debug(f"Failed to log event: {e}")
+
 # Initialize LLM
 try:
     llm = ChatOllama(model=MODEL_NAME, reasoning=False)
+    log_event("status", {"message": f"Model {MODEL_NAME} loaded"})
 except Exception as e:
     logging.critical(
         "Failed to load Ollama model '%s'. Install it with `ollama run %s` "
@@ -45,12 +72,15 @@ except Exception as e:
         MODEL_NAME,
         e,
     )
+    log_event("error", {"message": "Failed to load model", "detail": str(e)})
     raise
 
 # llm = ChatOpenAI(model="gpt-4o-mini", api_key=api_key, organization=org_id) for openai
 
 # Tool list
 tools = [get_time, arp_scan_terminal, read_text_from_latest_image, duckduckgo_search_tool, matrix_mode, take_screenshot]
+tools += [toggle_system_mute, open_app, read_clipboard, write_clipboard, find_file, list_recent_downloads]
+tools += [system_insights]
 
 # Tool-calling prompt
 prompt = ChatPromptTemplate.from_messages(
@@ -90,6 +120,7 @@ def speak_text(text: str):
 def write():
     conversation_mode = False
     last_interaction_time = None
+    log_event("status", {"message": "Jarvis listening for wake word"})
 
     try:
         with mic as source:
@@ -107,6 +138,7 @@ def write():
                             speak_text("Yes sir?")
                             conversation_mode = True
                             last_interaction_time = time.time()
+                            log_event("status", {"message": "Wake word detected"})
                         else:
                             logging.debug("Wake word not detected, continuing...")
                     else:
@@ -114,15 +146,24 @@ def write():
                         audio = recognizer.listen(source, timeout=10)
                         command = recognizer.recognize_google(audio)
                         logging.info(f"📥 Command: {command}")
+                        log_event("user", {"text": command})
 
                         logging.info("🤖 Sending command to agent...")
-                        response = executor.invoke({"input": command})
-                        content = response["output"]
-                        logging.info(f"✅ Agent responded: {content}")
+                        started = time.time()
+                        try:
+                            response = executor.invoke({"input": command})
+                            content = response["output"]
+                            logging.info(f"✅ Agent responded: {content}")
+                            latency_ms = (time.time() - started) * 1000.0
+                            log_event("assistant", {"text": content, "latency_ms": latency_ms})
 
-                        print("Jarvis:", content)
-                        speak_text(content)
-                        last_interaction_time = time.time()
+                            print("Jarvis:", content)
+                            speak_text(content)
+                            last_interaction_time = time.time()
+                        except Exception as e:
+                            logging.error(f"❌ Agent failed: {e}")
+                            log_event("error", {"message": "Agent failure", "detail": str(e)})
+                            speak_text("I had a problem handling that.")
 
                         if time.time() - last_interaction_time > CONVERSATION_TIMEOUT:
                             logging.info("⌛ Timeout: Returning to wake word mode.")
