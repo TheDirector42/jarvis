@@ -24,6 +24,7 @@ load_dotenv()
 MIC_INDEX = None
 TRIGGER_WORD = "jarvis"
 CONVERSATION_TIMEOUT = 30  # seconds of inactivity before exiting conversation mode
+MODEL_NAME = os.getenv("OLLAMA_MODEL", "qwen2.5:3b")
 
 logging.basicConfig(level=logging.DEBUG)  # logging
 
@@ -34,7 +35,17 @@ recognizer = sr.Recognizer()
 mic = sr.Microphone(device_index=MIC_INDEX)
 
 # Initialize LLM
-llm = ChatOllama(model="qwen3:1.7b", reasoning=False)
+try:
+    llm = ChatOllama(model=MODEL_NAME, reasoning=False)
+except Exception as e:
+    logging.critical(
+        "Failed to load Ollama model '%s'. Install it with `ollama run %s` "
+        "or set OLLAMA_MODEL to a model you already have. Error: %s",
+        MODEL_NAME,
+        MODEL_NAME,
+        e,
+    )
+    raise
 
 # llm = ChatOpenAI(model="gpt-4o-mini", api_key=api_key, organization=org_id) for openai
 

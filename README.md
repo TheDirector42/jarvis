@@ -1,13 +1,13 @@
 # 🧠 Jarvis – Local Voice-Controlled AI Assistant
 
-**Jarvis** is a voice-activated, conversational AI assistant powered by a local LLM (Qwen via Ollama). It listens for a wake word, processes spoken commands using a local language model with LangChain, and responds out loud via TTS. It supports tool-calling for dynamic functions like checking the current time.
+**Jarvis** is a voice-activated, conversational AI assistant powered by a local LLM (Llama 3 via Ollama). It listens for a wake word, processes spoken commands using a local language model with LangChain, and responds out loud via TTS. It supports tool-calling for dynamic functions like checking the current time.
 
 ---
 
 ## 🚀 Features
 
 - 🗣 Voice-activated with wake word **"Jarvis"**
-- 🧠 Local language model (Qwen 3 via Ollama)
+- 🧠 Local language model (Llama 3 via Ollama)
 - 🔧 Tool-calling with LangChain
 - 🔊 Text-to-speech responses via `pyttsx3`
 - 🌍 Example tool: Get the current time in a given city
@@ -19,7 +19,7 @@
 ## ▶️ How It Works (`main.py`)
 
 1. **Startup & local LLM Setup**
-   - Initializes a local Ollama model (`qwen3:1.7b`) via `ChatOllama`
+   - Initializes a local Ollama model (`llama3:8b` by default, configurable via `OLLAMA_MODEL`) via `ChatOllama`
    - Registers tools (`get_time`) using LangChain
 
 2. **Wake Word Listening**
@@ -45,7 +45,10 @@
    ```
 
 2. **Set Up the Local Model**  
-   Ensure you have the `qwen3:1.7b` model available in Ollama.
+   Ensure you have the `llama3:8b` model (the default) available in Ollama, or set `OLLAMA_MODEL` to a model you already have installed. Example pull:
+   ```bash
+   ollama run llama3:8b
+   ```
 
 3. **Run Jarvis**  
    Start the assistant by running:
@@ -53,4 +56,17 @@
    python main.py
    ```
 ---
+
+## 💻 Desktop HUD (Jarvis-style overlay)
+
+Want a quick, Tony Stark–style overview? Launch the desktop HUD:
+
+```bash
+python jarvis_desktop.py
+```
+
+What it shows:
+- Current model (defaults to `llama3:8b`), provider, and behavior
+- Built-in tools (time lookup, search, OCR, screenshot, ARP scan, matrix demo)
+- Quickstart steps and links to Ollama models and the README
 
