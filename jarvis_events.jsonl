@@ -13,3 +13,110 @@
 {"kind": "status", "ts": 1765027180.269115, "session": "4729dbf8-536c-4ae5-ae0f-5c609deb0af3", "message": "Jarvis listening for wake word"}
 {"kind": "status", "ts": 1765027272.6026893, "session": "4729dbf8-536c-4ae5-ae0f-5c609deb0af3", "message": "Wake word detected"}
 {"kind": "user", "ts": 1765027292.9139667, "session": "4729dbf8-536c-4ae5-ae0f-5c609deb0af3", "text": "give me system insights"}
+{"kind": "error", "ts": 1765027326.913085, "session": "4729dbf8-536c-4ae5-ae0f-5c609deb0af3", "message": "Agent failure", "detail": "[WinError 2] The system cannot find the file specified"}
+{"kind": "status", "ts": 1765027403.7457776, "session": "4729dbf8-536c-4ae5-ae0f-5c609deb0af3", "message": "Wake word detected"}
+{"kind": "user", "ts": 1765027406.4937916, "session": "4729dbf8-536c-4ae5-ae0f-5c609deb0af3", "text": "speed test"}
+{"kind": "assistant", "ts": 1765027408.1755197, "session": "4729dbf8-536c-4ae5-ae0f-5c609deb0af3", "text": "", "latency_ms": 1680.943489074707}
+{"kind": "user", "ts": 1765027427.5933583, "session": "4729dbf8-536c-4ae5-ae0f-5c609deb0af3", "text": "give me system insights"}
+{"kind": "error", "ts": 1765027429.4432883, "session": "4729dbf8-536c-4ae5-ae0f-5c609deb0af3", "message": "Agent failure", "detail": "[WinError 2] The system cannot find the file specified"}
+{"kind": "user", "ts": 1765027444.2997272, "session": "4729dbf8-536c-4ae5-ae0f-5c609deb0af3", "text": "toggle system mute"}
+{"kind": "assistant", "ts": 1765027448.512635, "session": "4729dbf8-536c-4ae5-ae0f-5c609deb0af3", "text": "System mute has been toggled. If you need to make a phone call or hear notifications, let me know and I can help you reactivate the system's ability to receive sound cues.", "latency_ms": 4212.022542953491}
+{"kind": "user", "ts": 1765027462.682111, "session": "4729dbf8-536c-4ae5-ae0f-5c609deb0af3", "text": "can you unmute"}
+{"kind": "assistant", "ts": 1765027465.9070024, "session": "4729dbf8-536c-4ae5-ae0f-5c609deb0af3", "text": "I have unmuted your device. How can I assist you further?", "latency_ms": 3224.1194248199463}
+{"kind": "status", "ts": 1765027530.1803792, "session": "0a08b35e-4a84-4da4-aa1d-576dfba906e4", "message": "Model qwen2.5:3b loaded"}
+{"kind": "status", "ts": 1765027530.198912, "session": "0a08b35e-4a84-4da4-aa1d-576dfba906e4", "message": "Jarvis listening for wake word"}
+{"kind": "status", "ts": 1765027555.2267573, "session": "0a08b35e-4a84-4da4-aa1d-576dfba906e4", "message": "Wake word detected"}
+{"kind": "user", "ts": 1765027562.6772003, "session": "0a08b35e-4a84-4da4-aa1d-576dfba906e4", "text": "how old do you understand the word slash"}
+{"kind": "assistant", "ts": 1765027570.1845043, "session": "0a08b35e-4a84-4da4-aa1d-576dfba906e4", "text": "The term \"slash\" can be interpreted in various ways depending on its context. For example, it can refer to a punctuation mark (/), a directory separator (like in Unix-like systems where it's used as \"/\"), or the forward-slash direction indicator (like in text formatting). It is not typically associated with any specific age; however, if you meant a \"slash\" user profile or tag often seen on forums, that concept likely originated from online communities and doesn't have an established age. Could you please provide more context on what you're asking about the term \"slash\"?", "latency_ms": 7506.3276290893555}
+{"kind": "status", "ts": 1765027851.3231068, "session": "534463d5-56ce-4c57-868b-9b65b3e1bba3", "message": "Model qwen2.5:3b loaded"}
+{"kind": "status", "ts": 1765027851.3381164, "session": "534463d5-56ce-4c57-868b-9b65b3e1bba3", "message": "Slash listening for wake word"}
+{"kind": "status", "ts": 1765027869.9414756, "session": "534463d5-56ce-4c57-868b-9b65b3e1bba3", "message": "Wake word detected"}
+{"kind": "user", "ts": 1765027874.4233074, "session": "534463d5-56ce-4c57-868b-9b65b3e1bba3", "text": "can you go back to sleep"}
+{"kind": "assistant", "ts": 1765027904.628955, "session": "534463d5-56ce-4c57-868b-9b65b3e1bba3", "text": "I'm sorry, I don't have the ability to understand or respond to such requests as I am here to assist with information and tasks. How can I help you today?", "latency_ms": 30204.277276992798}
+{"kind": "user", "ts": 1765027936.7707827, "session": "534463d5-56ce-4c57-868b-9b65b3e1bba3", "text": "return to idle"}
+{"kind": "status", "ts": 1765027938.7744331, "session": "534463d5-56ce-4c57-868b-9b65b3e1bba3", "message": "Manual idle requested"}
+{"kind": "status", "ts": 1765028163.117167, "session": "bca9e06f-86a1-44cb-8c41-af6a621771e6", "message": "Model qwen2.5:3b loaded"}
+{"kind": "status", "ts": 1765028163.133645, "session": "bca9e06f-86a1-44cb-8c41-af6a621771e6", "message": "Slash listening for wake word"}
+{"kind": "status", "ts": 1765028255.8885257, "session": "7f3b7ea8-5224-4ff6-867c-25c9a1dafde8", "message": "Model qwen2.5:3b loaded"}
+{"kind": "status", "ts": 1765028255.908426, "session": "7f3b7ea8-5224-4ff6-867c-25c9a1dafde8", "message": "Slash listening for wake word"}
+{"kind": "status", "ts": 1765028382.6443083, "session": "3fd4a066-e5f4-4871-be81-41fd724df941", "message": "Model qwen2.5:3b loaded"}
+{"kind": "status", "ts": 1765028382.6608138, "session": "3fd4a066-e5f4-4871-be81-41fd724df941", "message": "Slash listening for wake word"}
+{"kind": "status", "ts": 1765028485.2992318, "session": "015fe026-bd09-4510-8f93-12c0ebe7cfdf", "message": "Model qwen2.5:3b loaded"}
+{"kind": "status", "ts": 1765028485.3160276, "session": "015fe026-bd09-4510-8f93-12c0ebe7cfdf", "message": "Slash listening for wake word"}
+{"kind": "status", "ts": 1765028590.8148823, "session": "45fe3b1c-d28c-4f0f-a1f7-1be2ace606a0", "message": "Model qwen2.5:3b loaded"}
+{"kind": "status", "ts": 1765028590.8496287, "session": "45fe3b1c-d28c-4f0f-a1f7-1be2ace606a0", "message": "Slash listening for wake word"}
+{"kind": "status", "ts": 1765028748.288133, "session": "f1ca7e04-9173-47b1-8f90-9eaac597f813", "message": "Model qwen2.5:3b loaded"}
+{"kind": "status", "ts": 1765028748.316021, "session": "f1ca7e04-9173-47b1-8f90-9eaac597f813", "message": "Slash listening for wake word"}
+{"kind": "status", "ts": 1765028824.8380473, "session": "c024f3b2-f56b-4774-b88b-674c109d7fd2", "message": "Model qwen2.5:3b loaded"}
+{"kind": "status", "ts": 1765028824.8552644, "session": "c024f3b2-f56b-4774-b88b-674c109d7fd2", "message": "Slash listening for wake word"}
+{"kind": "status", "ts": 1765028839.0436509, "session": "c024f3b2-f56b-4774-b88b-674c109d7fd2", "message": "Wake word detected"}
+{"kind": "user", "ts": 1765028851.8130326, "session": "c024f3b2-f56b-4774-b88b-674c109d7fd2", "text": "what can you do"}
+{"kind": "assistant", "ts": 1765028893.9418511, "session": "c024f3b2-f56b-4774-b88b-674c109d7fd2", "text": "I can help with various tasks. Here are some examples of what I can do:\n\n1. Open apps like Notepad, Calculator, or Chrome.\n2. Run system insights to check CPU, GPU, Wi-Fi status, and battery level.\n3. Take screenshots or capture screens.\n4. Perform searches on the internet.\n5. Display text from a screenshot.\n6. Find files based on their names.\n7. List recent downloads in your Downloads folder.\n\nWhat specific task would you like me to assist with?", "latency_ms": 42128.07035446167}
+{"kind": "user", "ts": 1765028930.6307611, "session": "c024f3b2-f56b-4774-b88b-674c109d7fd2", "text": "it's your template"}
+{"kind": "assistant", "ts": 1765028933.8623424, "session": "c024f3b2-f56b-4774-b88b-674c109d7fd2", "text": "I apologize, but there seems to be some confusion. Could you please provide more information or a specific question or task you'd like me to help with? I'm here to assist you with various tasks and queries using the tools available to me.", "latency_ms": 3230.7517528533936}
+{"kind": "user", "ts": 1765028963.6951556, "session": "c024f3b2-f56b-4774-b88b-674c109d7fd2", "text": "can you locate email signature file"}
+{"kind": "assistant", "ts": 1765028967.819296, "session": "c024f3b2-f56b-4774-b88b-674c109d7fd2", "text": "Sure, I can help with that. Do you have any specific folder or application where these signatures are typically stored? Common places include the user's Documents folder, their profile directory, or a custom location they might be using for this purpose. If not, let me know and I'll look it up in common directories.", "latency_ms": 4123.2171058654785}
+{"kind": "status", "ts": 1765029359.253086, "session": "4e1612f5-ef6c-4b40-8e9a-177dbe4f542d", "message": "Model qwen2.5:3b loaded"}
+{"kind": "status", "ts": 1765029359.2760844, "session": "4e1612f5-ef6c-4b40-8e9a-177dbe4f542d", "message": "Slash listening for wake word"}
+{"kind": "status", "ts": 1765029553.5580337, "session": "660f3740-3c66-406f-8f25-a33b41aa37c4", "message": "Model qwen2.5:3b loaded"}
+{"kind": "status", "ts": 1765029553.5759773, "session": "660f3740-3c66-406f-8f25-a33b41aa37c4", "message": "Slash listening for wake word"}
+{"kind": "status", "ts": 1765029698.5107212, "session": "8febeebb-9eed-4efd-ba4b-9915edc85d78", "message": "Model qwen2.5:3b loaded"}
+{"kind": "status", "ts": 1765029698.5290973, "session": "8febeebb-9eed-4efd-ba4b-9915edc85d78", "message": "Slash listening for wake word"}
+{"kind": "status", "ts": 1765029708.7255766, "session": "8febeebb-9eed-4efd-ba4b-9915edc85d78", "message": "Wake word detected"}
+{"kind": "user", "ts": 1765029715.552892, "session": "8febeebb-9eed-4efd-ba4b-9915edc85d78", "text": "what can you do for me parle"}
+{"kind": "assistant", "ts": 1765029752.409199, "session": "8febeebb-9eed-4efd-ba4b-9915edc85d78", "text": "I'm here to help! From checking system insights to taking screenshots, I've got you covered. What would you like to do today? Whether it's finding a file, opening an app, or something else entirely, just let me know how I can assist.", "latency_ms": 36855.30781745911}
+{"kind": "user", "ts": 1765029774.2539847, "session": "8febeebb-9eed-4efd-ba4b-9915edc85d78", "text": "tell me a funny joke"}
+{"kind": "assistant", "ts": 1765029775.9288929, "session": "8febeebb-9eed-4efd-ba4b-9915edc85d78", "text": "Sure, here's one for you: Why don't scientists trust atoms? Because they make up everything!", "latency_ms": 1673.7558841705322}
+{"kind": "user", "ts": 1765029794.4497232, "session": "8febeebb-9eed-4efd-ba4b-9915edc85d78", "text": "hilarious"}
+{"kind": "assistant", "ts": 1765029796.2393034, "session": "8febeebb-9eed-4efd-ba4b-9915edc85d78", "text": "Isn't it? I'm here to provide assistance, not necessarily for giggles. How can I help you today?", "latency_ms": 1788.4504795074463}
+{"kind": "user", "ts": 1765029815.3116739, "session": "8febeebb-9eed-4efd-ba4b-9915edc85d78", "text": "return to idle"}
+{"kind": "status", "ts": 1765029817.7745245, "session": "8febeebb-9eed-4efd-ba4b-9915edc85d78", "message": "Manual idle requested"}
+{"kind": "status", "ts": 1765029827.2345903, "session": "8febeebb-9eed-4efd-ba4b-9915edc85d78", "message": "Wake word detected"}
+{"kind": "user", "ts": 1765029831.0993035, "session": "8febeebb-9eed-4efd-ba4b-9915edc85d78", "text": "voice"}
+{"kind": "assistant", "ts": 1765029833.2537467, "session": "8febeebb-9eed-4efd-ba4b-9915edc85d78", "text": "I can help with that. Could you please specify what you need assistance with? Is it voice recognition, transcription, or something else entirely?", "latency_ms": 2153.615713119507}
+{"kind": "status", "ts": 1765029913.2563813, "session": "b044407a-f3aa-4431-a1c3-ed28dd7177ff", "message": "Model qwen2.5:3b loaded"}
+{"kind": "status", "ts": 1765029913.2738862, "session": "b044407a-f3aa-4431-a1c3-ed28dd7177ff", "message": "Slash listening for wake word"}
+{"kind": "status", "ts": 1765029920.7858548, "session": "b044407a-f3aa-4431-a1c3-ed28dd7177ff", "message": "Wake word detected"}
+{"kind": "user", "ts": 1765029938.1842465, "session": "b044407a-f3aa-4431-a1c3-ed28dd7177ff", "text": "what are you doing"}
+{"kind": "assistant", "ts": 1765029944.0312, "session": "b044407a-f3aa-4431-a1c3-ed28dd7177ff", "text": "I'm here and ready to help with anything you need. What would you like to know or talk about?", "latency_ms": 5845.634698867798}
+{"kind": "user", "ts": 1765029956.3008895, "session": "b044407a-f3aa-4431-a1c3-ed28dd7177ff", "text": "for you"}
+{"kind": "assistant", "ts": 1765029958.6826637, "session": "b044407a-f3aa-4431-a1c3-ed28dd7177ff", "text": "I'm ready to help. How can I assist you today? Whether it's time updates, terminal commands, internet searches, or something else, just let me know!", "latency_ms": 2380.742311477661}
+{"kind": "user", "ts": 1765029975.2288902, "session": "b044407a-f3aa-4431-a1c3-ed28dd7177ff", "text": "up for me"}
+{"kind": "assistant", "ts": 1765029978.0897534, "session": "b044407a-f3aa-4431-a1c3-ed28dd7177ff", "text": "Sure thing! What do you need help with today? Whether it's finding the weather, searching for tech news, or anything else you need assistance with, just let me know. What\u2019s on your mind?", "latency_ms": 2860.0573539733887}
+{"kind": "user", "ts": 1765030006.6288054, "session": "b044407a-f3aa-4431-a1c3-ed28dd7177ff", "text": "can you look up latest Tech News"}
+{"kind": "assistant", "ts": 1765030008.860103, "session": "b044407a-f3aa-4431-a1c3-ed28dd7177ff", "text": "Certainly sir, here's the top result for: \"latest tech news\"\n\n\ud83d\udd39 Title: Tech News | Today's Latest Technology News | Reuters\n\ud83d\udd17 URL: https://www.reuters.com/technology/\n", "latency_ms": 2230.5850982666016}
+{"kind": "user", "ts": 1765030041.5042515, "session": "b044407a-f3aa-4431-a1c3-ed28dd7177ff", "text": "can you look up how to build naiman suit"}
+{"kind": "assistant", "ts": 1765030044.9281442, "session": "b044407a-f3aa-4431-a1c3-ed28dd7177ff", "text": "I couldn't find specific information on building an Naiman suit. It's possible this is something more niche or not widely documented. Do you have any other questions, or would you like a general search on how to create suits or costumes?", "latency_ms": 3423.0713844299316}
+{"kind": "user", "ts": 1765030065.3734615, "session": "b044407a-f3aa-4431-a1c3-ed28dd7177ff", "text": "on how to create suits"}
+{"kind": "assistant", "ts": 1765030068.3016896, "session": "b044407a-f3aa-4431-a1c3-ed28dd7177ff", "text": "Creating suits typically involves tailoring or custom fitting. Do you need help finding a tailor, or perhaps some styling advice? Tailoring can be quite specific and often requires measurements and fittings. What would you like to do?", "latency_ms": 2927.16908454895}
+{"kind": "user", "ts": 1765030179.4128284, "session": "b044407a-f3aa-4431-a1c3-ed28dd7177ff", "text": "activate Matrix mode"}
+{"kind": "assistant", "ts": 1765030185.1302345, "session": "b044407a-f3aa-4431-a1c3-ed28dd7177ff", "text": "Matrix mode activated! Welcome to the Matrix, Neo. Press Ctrl+C to exit.", "latency_ms": 5713.636875152588}
+{"kind": "status", "ts": 1765030237.8277686, "session": "c5bd686c-ab2f-4fe3-93a8-d2836a64a7a5", "message": "Model qwen2.5:3b loaded"}
+{"kind": "status", "ts": 1765030237.8486395, "session": "c5bd686c-ab2f-4fe3-93a8-d2836a64a7a5", "message": "Slash listening for wake word"}
+{"kind": "status", "ts": 1765030255.335882, "session": "c5bd686c-ab2f-4fe3-93a8-d2836a64a7a5", "message": "Wake word detected"}
+{"kind": "user", "ts": 1765030284.3397732, "session": "c5bd686c-ab2f-4fe3-93a8-d2836a64a7a5", "text": "for today"}
+{"kind": "assistant", "ts": 1765030288.3913827, "session": "c5bd686c-ab2f-4fe3-93a8-d2836a64a7a5", "text": "Could you please provide more context? For example, are you asking about the weather, what's happening today in a specific field, or something else entirely?", "latency_ms": 4050.6503582000732}
+{"kind": "user", "ts": 1765030329.615555, "session": "c5bd686c-ab2f-4fe3-93a8-d2836a64a7a5", "text": "can you go back to Idol"}
+{"kind": "assistant", "ts": 1765030332.062684, "session": "c5bd686c-ab2f-4fe3-93a8-d2836a64a7a5", "text": "I'm not sure what you mean by \"go back to Idol\". Do you have more context or was this a typo? Could you please clarify?", "latency_ms": 2445.809841156006}
+{"kind": "user", "ts": 1765030344.0150187, "session": "c5bd686c-ab2f-4fe3-93a8-d2836a64a7a5", "text": "return to idle"}
+{"kind": "status", "ts": 1765030346.720414, "session": "c5bd686c-ab2f-4fe3-93a8-d2836a64a7a5", "message": "Manual idle requested"}
+{"kind": "status", "ts": 1765030399.4219978, "session": "3ca0a4f6-00a4-43bf-994f-7947a29032c0", "message": "Model qwen2.5:3b loaded"}
+{"kind": "status", "ts": 1765030399.442445, "session": "3ca0a4f6-00a4-43bf-994f-7947a29032c0", "message": "Slash listening for wake word"}
+{"kind": "status", "ts": 1765030431.376853, "session": "3ca0a4f6-00a4-43bf-994f-7947a29032c0", "message": "Wake word detected"}
+{"kind": "user", "ts": 1765030436.4794724, "session": "3ca0a4f6-00a4-43bf-994f-7947a29032c0", "text": "to do list"}
+{"kind": "assistant", "ts": 1765030451.7519178, "session": "3ca0a4f6-00a4-43bf-994f-7947a29032c0", "text": "You don't have any tasks in your to-do list right now. You can add new ones using the `todo_add` command if you need to. How can I assist you further?", "latency_ms": 15271.579027175903}
+{"kind": "user", "ts": 1765030468.3527627, "session": "3ca0a4f6-00a4-43bf-994f-7947a29032c0", "text": "can you add a task"}
+{"kind": "assistant", "ts": 1765030469.5859246, "session": "3ca0a4f6-00a4-43bf-994f-7947a29032c0", "text": "Sure thing! What's the task you'd like to add?", "latency_ms": 1232.3427200317383}
+{"kind": "user", "ts": 1765030483.5762935, "session": "3ca0a4f6-00a4-43bf-994f-7947a29032c0", "text": "can you add a task"}
+{"kind": "assistant", "ts": 1765030484.6145508, "session": "3ca0a4f6-00a4-43bf-994f-7947a29032c0", "text": "Sure thing! What's the task you'd like to add?", "latency_ms": 1037.515640258789}
+{"kind": "user", "ts": 1765030504.5533836, "session": "3ca0a4f6-00a4-43bf-994f-7947a29032c0", "text": "can you add call Jayden to my to do list"}
+{"kind": "assistant", "ts": 1765030507.1344867, "session": "3ca0a4f6-00a4-43bf-994f-7947a29032c0", "text": "I couldn't find any information about Jayden in your To-Do list. Could you please provide more details or specify what task you want to add for Jayden?", "latency_ms": 2580.3070068359375}
+{"kind": "status", "ts": 1765075205.041643, "session": "0c7d27de-2a16-46f6-ab61-d01f1d6fa40d", "message": "Model qwen2.5:3b loaded"}
+{"kind": "status", "ts": 1765075205.0851152, "session": "0c7d27de-2a16-46f6-ab61-d01f1d6fa40d", "message": "Slash listening for wake word"}
+{"kind": "status", "ts": 1765075272.6698651, "session": "0c7d27de-2a16-46f6-ab61-d01f1d6fa40d", "message": "Wake word detected"}
+{"kind": "user", "ts": 1765075277.365051, "session": "0c7d27de-2a16-46f6-ab61-d01f1d6fa40d", "text": "endometriose mode"}
+{"kind": "assistant", "ts": 1765075318.6596084, "session": "0c7d27de-2a16-46f6-ab61-d01f1d6fa40d", "text": "I'm not sure what you mean by \"endometriosis mode.\" Could you please clarify or provide more context? Are you looking for information, need a specific app opened, or something else?", "latency_ms": 41292.07372665405}
+{"kind": "user", "ts": 1765075378.2401915, "session": "0c7d27de-2a16-46f6-ab61-d01f1d6fa40d", "text": "endometriose mode"}
+{"kind": "assistant", "ts": 1765075382.949258, "session": "0c7d27de-2a16-46f6-ab61-d01f1d6fa40d", "text": "I think you might be looking for \"matrix mode\" to enter a text-based Matrix experience. Would you like me to open that, or is there something else I can help with regarding endometriosis?", "latency_ms": 4705.962896347046}
+{"kind": "user", "ts": 1765075423.5557115, "session": "0c7d27de-2a16-46f6-ab61-d01f1d6fa40d", "text": "endometriose mode"}
+{"kind": "assistant", "ts": 1765075424.8098793, "session": "0c7d27de-2a16-46f6-ab61-d01f1d6fa40d", "text": "Matrix mode activated! Welcome to the Matrix, Neo. Press Ctrl+C to exit.", "latency_ms": 1253.4489631652832}

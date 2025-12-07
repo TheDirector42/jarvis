@@ -10,7 +10,7 @@ def launch(process_args):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Launch Jarvis HUD and/or voice assistant.")
+    parser = argparse.ArgumentParser(description="Launch Slash HUD and/or voice assistant.")
     parser.add_argument("--no-hud", action="store_true", help="Do not start the desktop HUD.")
     parser.add_argument("--no-voice", action="store_true", help="Do not start the voice assistant (main.py).")
     args = parser.parse_args()

@@ -5,6 +5,7 @@ import webbrowser
 import threading
 import tkinter as tk
 import subprocess
+import math
 from datetime import datetime
 from pathlib import Path
 from tkinter import ttk
@@ -29,6 +30,8 @@ from tools.duckduckgo import duckduckgo_search_tool
 from tools.matrix import matrix_mode
 from tools.screenshot import take_screenshot
 from tools.system_insights import system_insights
+from tools.bambu_status import bambu_printer_status
+from tools.todo import todo_add, todo_list, todo_complete
 
 # Mirror the model fallback used in main.py (must support tools)
 MODEL_NAME = os.getenv("OLLAMA_MODEL", "qwen2.5:3b")
@@ -41,14 +44,18 @@ TOOLS = [
     matrix_mode,
     take_screenshot,
     system_insights,
+    bambu_printer_status,
+    todo_add,
+    todo_list,
+    todo_complete,
 ]
 PROMPT = ChatPromptTemplate.from_messages(
     [
         (
             "system",
-            "You are Jarvis, an intelligent, conversational AI assistant. "
-            "You are concise, friendly, and explain reasoning simply. "
-            "Use tools when they improve accuracy.",
+            "You are Slash, an intelligent, conversational AI assistant with a dry, witty edge. "
+            "Be concise, friendly, and explain reasoning simply. "
+            "Use tools when they improve accuracy, and add light humor where it fits.",
         ),
         ("human", "{input}"),
         ("placeholder", "{agent_scratchpad}"),
@@ -56,10 +63,10 @@ PROMPT = ChatPromptTemplate.from_messages(
 )
 
 
-class JarvisDashboard:
+class SlashDashboard:
     def __init__(self, root: tk.Tk):
         self.root = root
-        self.root.title("Jarvis HUD")
+        self.root.title("Slash HUD")
         self.root.geometry("900x600")
         self.root.configure(bg="#050910")
         self.accent = "#5ef0ff"
@@ -83,6 +90,12 @@ class JarvisDashboard:
         self.batt_text = tk.StringVar(value="Battery: --")
         self.speed_text = tk.StringVar(value="Speed: idle")
         self.speed_running = False
+        self.event_count = 0
+        self.error_count = 0
+        self.last_status_text = tk.StringVar(value="Status: --")
+        self.last_error_text = tk.StringVar(value="Errors: 0")
+        self.hero_canvas = None
+        self.hero_angle = 0
 
         self._setup_style()
         self._setup_agent()
@@ -146,11 +159,11 @@ class JarvisDashboard:
     def _build_layout(self):
         header = ttk.Label(
             self.root,
-            text="Jarvis Operations HUD",
+            text="Slash Operations HUD",
             style="Header.TLabel",
             anchor="w",
         )
-        header.pack(fill="x", padx=24, pady=(20, 2))
+        header.pack(fill="x", padx=28, pady=(22, 2))
 
         tagline = ttk.Label(
             self.root,
@@ -158,21 +171,21 @@ class JarvisDashboard:
             style="Body.TLabel",
             anchor="w",
         )
-        tagline.pack(fill="x", padx=24, pady=(0, 8))
+        tagline.pack(fill="x", padx=28, pady=(0, 10))
 
         accent_bar = tk.Canvas(self.root, height=3, bg="#050910", highlightthickness=0)
-        accent_bar.pack(fill="x", padx=24, pady=(0, 14))
+        accent_bar.pack(fill="x", padx=28, pady=(0, 16))
         accent_bar.create_rectangle(0, 0, 180, 3, fill=self.accent, width=0)
 
         self.scan_canvas = tk.Canvas(self.root, height=18, bg="#050910", highlightthickness=0)
-        self.scan_canvas.pack(fill="x", padx=20, pady=(0, 12))
+        self.scan_canvas.pack(fill="x", padx=24, pady=(0, 14))
         self.scan_bars = []
         for i in range(3):
             bar = self.scan_canvas.create_rectangle(-180 + i * 220, 2, -80 + i * 220, 16, fill=self.accent, width=0)
             self.scan_bars.append(bar)
 
         top_frame = tk.Frame(self.root, bg="#050910")
-        top_frame.pack(fill="x", padx=20, pady=4)
+        top_frame.pack(fill="x", padx=24, pady=6)
 
         self.status_card = self._card(top_frame)
         self._status_content(self.status_card)
@@ -180,24 +193,20 @@ class JarvisDashboard:
         self.model_card = self._card(top_frame)
         self._model_content(self.model_card)
 
-        self.tools_card = self._card(top_frame)
-        self._tools_content(self.tools_card)
+        # Removed radar card for a cleaner layout
 
         lower_frame = tk.Frame(self.root, bg="#050910")
-        lower_frame.pack(fill="both", expand=True, padx=20, pady=12)
+        lower_frame.pack(fill="both", expand=True, padx=24, pady=14)
 
         self.chat_card = self._card(lower_frame, fill="both", expand=True)
         self._chat_content(self.chat_card)
 
-        self.quickstart_card = self._card(lower_frame, fill="y", expand=False)
-        self._quickstart_content(self.quickstart_card)
-
     def _card(self, parent, **pack_kwargs):
         frame = ttk.Frame(parent, style="Card.TFrame")
-        pack_params = dict(side="left", padx=8, expand=True, fill="both")
+        pack_params = dict(side="left", padx=10, expand=True, fill="both")
         pack_params.update(pack_kwargs)
         frame.pack(**pack_params)
-        inner = tk.Frame(frame, bg=self.subtle, padx=14, pady=12)
+        inner = tk.Frame(frame, bg=self.subtle, padx=16, pady=14)
         inner.pack(fill="both", expand=True)
         return inner
 
@@ -229,14 +238,22 @@ class JarvisDashboard:
         )
         self.detail_label.pack(anchor="w", pady=(0, 6))
 
-        self.resp_label = ttk.Label(parent, text="Last latency: --", style="Card.TLabel")
+        mono = ("Consolas", 10)
+
+        self.resp_label = ttk.Label(parent, text="Last latency: --", style="Card.TLabel", font=mono)
         self.resp_label.pack(anchor="w")
 
-        self.convo_label = ttk.Label(parent, text="Exchanges: 0", style="Card.TLabel")
+        self.convo_label = ttk.Label(parent, text="Exchanges: 0", style="Card.TLabel", font=mono)
         self.convo_label.pack(anchor="w")
 
-        self.uptime_label = ttk.Label(parent, text="Uptime: 00:00:00", style="Card.TLabel")
+        self.uptime_label = ttk.Label(parent, text="Uptime: 00:00:00", style="Card.TLabel", font=mono)
         self.uptime_label.pack(anchor="w")
+
+        self.event_label = ttk.Label(parent, textvariable=self.last_status_text, style="Card.TLabel", font=mono)
+        self.event_label.pack(anchor="w", pady=(2, 0))
+
+        self.error_label = ttk.Label(parent, textvariable=self.last_error_text, style="Card.TLabel", font=mono)
+        self.error_label.pack(anchor="w", pady=(0, 6))
 
         self.pulse = tk.Canvas(parent, width=220, height=8, bg=self.subtle, highlightthickness=0)
         self.pulse.pack(pady=(10, 0), anchor="w")
@@ -267,22 +284,24 @@ class JarvisDashboard:
         )
         self.model_state_label.pack(anchor="w", pady=(8, 0))
 
-        self.vitals_label = ttk.Label(parent, text="CPU: --  •  RAM: --", style="Card.TLabel")
+        mono = ("Consolas", 10)
+
+        self.vitals_label = ttk.Label(parent, text="CPU: --  •  RAM: --", style="Card.TLabel", font=mono)
         self.vitals_label.pack(anchor="w", pady=(4, 0))
 
-        self.gpu_label = ttk.Label(parent, textvariable=self.gpu_text, style="Card.TLabel")
+        self.gpu_label = ttk.Label(parent, textvariable=self.gpu_text, style="Card.TLabel", font=mono)
         self.gpu_label.pack(anchor="w", pady=(2, 0))
 
-        self.wifi_label = ttk.Label(parent, textvariable=self.wifi_text, style="Card.TLabel")
+        self.wifi_label = ttk.Label(parent, textvariable=self.wifi_text, style="Card.TLabel", font=mono)
         self.wifi_label.pack(anchor="w", pady=(2, 0))
 
-        self.ip_label = ttk.Label(parent, textvariable=self.ip_text, style="Card.TLabel")
+        self.ip_label = ttk.Label(parent, textvariable=self.ip_text, style="Card.TLabel", font=mono)
         self.ip_label.pack(anchor="w", pady=(2, 0))
 
-        self.batt_label = ttk.Label(parent, textvariable=self.batt_text, style="Card.TLabel")
+        self.batt_label = ttk.Label(parent, textvariable=self.batt_text, style="Card.TLabel", font=mono)
         self.batt_label.pack(anchor="w", pady=(2, 0))
 
-        self.speed_label = ttk.Label(parent, textvariable=self.speed_text, style="Card.TLabel")
+        self.speed_label = ttk.Label(parent, textvariable=self.speed_text, style="Card.TLabel", font=mono)
         self.speed_label.pack(anchor="w", pady=(4, 4))
 
         ttk.Button(
@@ -292,36 +311,18 @@ class JarvisDashboard:
             command=self._run_speedtest,
         ).pack(anchor="w", pady=(0, 8))
 
-        ttk.Button(
-            parent,
-            text="Open README",
-            style="Accent.TButton",
-            command=self._open_readme,
-        ).pack(anchor="w", pady=(12, 0))
-
-    def _tools_content(self, parent):
-        title = ttk.Label(parent, text="Tools", style="Card.TLabel")
-        title.pack(anchor="w")
-
-        tools = [
-            "🕒 Time lookup",
-            "🔍 DuckDuckGo search",
-            "🖼 OCR latest screenshot",
-            "🖥️ Screenshot capture",
-            "📡 ARP network scan",
-            "🧮 Matrix mode (demo)",
-            "🛠 System insights (CPU/GPU/Wi-Fi/battery/speed)",
-        ]
-        for tool in tools:
-            ttk.Label(parent, text=f"• {tool}", style="Card.TLabel").pack(anchor="w", pady=(2, 0))
-
     def _chat_content(self, parent):
         title = ttk.Label(parent, text="Conversation Feed", style="Card.TLabel")
         title.pack(anchor="w")
 
+        logo = tk.Canvas(parent, width=60, height=24, bg=self.subtle, highlightthickness=0)
+        logo.pack(anchor="w", pady=(0, 6))
+        logo.create_text(30, 12, text="SLASH", fill=self.accent, font=("Segoe UI Semibold", 12))
+        logo.create_rectangle(5, 20, 55, 21, fill=self.accent, width=0)
+
         subtitle = ttk.Label(
             parent,
-            text="Live chat between you and Jarvis (voice + HUD).",
+            text="Live chat between you and Slash (voice + HUD).",
             style="Card.TLabel",
         )
         subtitle.pack(anchor="w", pady=(2, 8))
@@ -384,19 +385,6 @@ class JarvisDashboard:
         self._populate_demo_chat()
         self.entry.focus_set()
 
-    def _quickstart_content(self, parent):
-        title = ttk.Label(parent, text="Quickstart", style="Card.TLabel")
-        title.pack(anchor="w")
-
-        steps = [
-            "1) Pull the model:  ollama run qwen2.5:3b",
-            "2) Start everything: python start_jarvis.py",
-            "3) Say the wake word: \"Jarvis\"",
-            "4) Issue a command (e.g., \"What's the time in Sydney?\")",
-        ]
-        for step in steps:
-            ttk.Label(parent, text=step, style="Card.TLabel").pack(anchor="w", pady=(4, 0))
-
         ttk.Button(
             parent,
             text="Open Ollama models",
@@ -449,6 +437,8 @@ class JarvisDashboard:
         else:
             self.resp_label.config(text="Last latency: --")
         self.convo_label.config(text=f"Exchanges: {self.convo_count}")
+        self.event_label.config(text=f"Events: {self.event_count}")
+        self.error_label.config(text=f"Errors: {self.error_count}")
 
         if psutil:
             cpu = psutil.cpu_percent(interval=None)
@@ -457,11 +447,13 @@ class JarvisDashboard:
         else:
             self.vitals_label.config(text="CPU/RAM: install psutil for live stats")
 
-        self.gpu_text.set(self._sample_gpu())
+        gpu_text, gpu_util = self._sample_gpu()
+        self.gpu_text.set(gpu_text)
         wifi, ip = self._sample_wifi_ip()
         self.wifi_text.set(wifi)
         self.ip_text.set(ip)
-        self.batt_text.set(self._sample_battery())
+        batt_text, batt_pct = self._sample_battery()
+        self.batt_text.set(batt_text)
 
         self.root.after(1000, self._tick_vitals)
 
@@ -469,7 +461,7 @@ class JarvisDashboard:
         if self.thinking:
             frames = ["⠁", "⠂", "⠄", "⡀", "⢀", "⠠", "⠐", "⠈"]
             self.spinner_idx = (self.spinner_idx + 1) % len(frames)
-            self.think_label.config(text=f"Jarvis is thinking... {frames[self.spinner_idx]}")
+            self.think_label.config(text=f"Slash is thinking... {frames[self.spinner_idx]}")
         self.root.after(120, self._tick_spinner)
 
     def _watch_events(self):
@@ -503,7 +495,7 @@ class JarvisDashboard:
             self._append_chat("user", f"You: {text}\n")
             self.chat_text.see("end")
         elif kind == "assistant":
-            self._append_chat("jarvis", f"Jarvis: {text}\n\n")
+            self._append_chat("jarvis", f"Slash: {text}\n\n")
             self.convo_count += 1
             if latency_ms:
                 self.last_latency = latency_ms / 1000.0
@@ -516,6 +508,11 @@ class JarvisDashboard:
             self.agent_status_text.set("LLM error")
             if text:
                 self.agent_detail_text.set(text)
+            self.error_count += 1
+
+        self.event_count += 1
+        if msg:
+            self.last_status_text.set(f"Status: {msg}")
 
     def _log_event(self, kind: str, data: dict):
         try:
@@ -538,7 +535,7 @@ class JarvisDashboard:
         self._log_event("user", {"text": text})
 
         if not self.executor:
-            self._append_chat("meta", f"Jarvis not ready: {self.agent_error or 'no model'}\n")
+            self._append_chat("meta", f"Slash not ready: {self.agent_error or 'no model'}\n")
             return
 
         self._set_thinking(True)
@@ -565,14 +562,14 @@ class JarvisDashboard:
             self.last_latency = latency
             self.status_label.config(text="Connected • ready")
             self._log_event("assistant", {"text": content, "latency_ms": latency * 1000.0})
-        self._append_chat("jarvis", f"Jarvis: {content}\n\n")
+        self._append_chat("jarvis", f"Slash: {content}\n\n")
         self.chat_text.see("end")
         self._set_thinking(False)
 
     def _set_thinking(self, active: bool):
         self.thinking = active
         if active:
-            self.think_label.config(text="Jarvis is thinking...")
+            self.think_label.config(text="Slash is thinking...")
             self.send_button.state(["disabled"])
         else:
             self.think_label.config(text="")
@@ -593,15 +590,20 @@ class JarvisDashboard:
         try:
             proc = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8")
             if proc.returncode != 0 or not proc.stdout.strip():
-                return "GPU: n/a"
+                return "GPU: n/a", None
             line = proc.stdout.strip().splitlines()[0]
             parts = [p.strip() for p in line.split(",")]
             if len(parts) >= 3:
                 name, util, temp = parts[0], parts[1], parts[2]
-                return f"GPU: {name} {util}% @ {temp}°C"
+                util_val = None
+                try:
+                    util_val = float(util)
+                except Exception:
+                    util_val = None
+                return f"GPU: {name} {util}% @ {temp}°C", util_val
         except Exception:
             pass
-        return "GPU: n/a"
+        return "GPU: n/a", None
 
     def _sample_wifi_ip(self) -> tuple[str, str]:
         wifi_text = "Wi-Fi: n/a"
@@ -646,17 +648,17 @@ class JarvisDashboard:
             ip_text = f"IP: {ip}"
         return wifi_text, ip_text
 
-    def _sample_battery(self) -> str:
+    def _sample_battery(self) -> tuple[str, float | None]:
         if not psutil or not hasattr(psutil, "sensors_battery"):
-            return "Battery: n/a"
+            return "Battery: n/a", None
         try:
             batt = psutil.sensors_battery()
             if not batt:
-                return "Battery: not detected"
+                return "Battery: not detected", None
             status = "charging" if batt.power_plugged else "discharging"
-            return f"Battery: {batt.percent:.0f}% ({status})"
+            return f"Battery: {batt.percent:.0f}% ({status})", batt.percent
         except Exception:
-            return "Battery: n/a"
+            return "Battery: n/a", None
 
     def _run_speedtest(self):
         if self.speed_running:
@@ -684,8 +686,9 @@ class JarvisDashboard:
         self.speed_text.set(text)
         self.speed_running = False
 
+
     def _populate_demo_chat(self):
-        self._append_chat("meta", "Waiting for Jarvis events... start the voice assistant to see live chat.\n")
+        self._append_chat("meta", "Waiting for Slash events... start the voice assistant to see live chat.\n")
         self.chat_text.see("end")
         self.chat_text.config(state="disabled")
 
@@ -698,7 +701,7 @@ class JarvisDashboard:
 
 def main():
     root = tk.Tk()
-    JarvisDashboard(root)
+    SlashDashboard(root)
     root.mainloop()
 
 

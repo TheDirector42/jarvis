@@ -3,6 +3,7 @@ import logging
 import time
 import json
 import uuid
+import threading
 from pathlib import Path
 import pyttsx3
 from dotenv import load_dotenv
@@ -30,11 +31,14 @@ from tools.system_utils import (
     list_recent_downloads,
 )
 from tools.system_insights import system_insights
+from tools.bambu_status import bambu_printer_status
+from tools.todo import todo_add, todo_list, todo_complete
 
 load_dotenv()
 
 MIC_INDEX = None
-TRIGGER_WORD = "jarvis"
+TRIGGER_WORDS = ["slash", "/"]
+VOICE_PREFS = [v.strip().lower() for v in os.getenv("SLASH_VOICE", "aria,jenny,mark,steffi,brian").split(",")]
 CONVERSATION_TIMEOUT = 30  # seconds of inactivity before exiting conversation mode
 MODEL_NAME = os.getenv("OLLAMA_MODEL", "qwen2.5:3b")  # must support tools
 LOG_FILE = Path(os.getenv("JARVIS_EVENT_LOG", Path(__file__).parent / "jarvis_events.jsonl"))
@@ -80,14 +84,14 @@ except Exception as e:
 # Tool list
 tools = [get_time, arp_scan_terminal, read_text_from_latest_image, duckduckgo_search_tool, matrix_mode, take_screenshot]
 tools += [toggle_system_mute, open_app, read_clipboard, write_clipboard, find_file, list_recent_downloads]
-tools += [system_insights]
+tools += [system_insights, bambu_printer_status, todo_add, todo_list, todo_complete]
 
 # Tool-calling prompt
 prompt = ChatPromptTemplate.from_messages(
     [
         (
             "system",
-            "You are Jarvis, an intelligent, conversational AI assistant. Your goal is to be helpful, friendly, and informative. You can respond in natural, human-like language and use tools when needed to answer questions more accurately. Always explain your reasoning simply when appropriate, and keep your responses conversational and concise.",
+            "You are Slash, an intelligent, conversational AI assistant with a dry, witty edge. Be helpful and informative, but keep replies concise and conversational. Use light humor when it fits, avoid sarcasm that could confuse. Use tools when they improve accuracy, and explain reasoning simply.",
         ),
         ("human", "{input}"),
         ("placeholder", "{agent_scratchpad}"),
@@ -103,11 +107,17 @@ executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
 def speak_text(text: str):
     try:
         engine = pyttsx3.init()
+        # Prefer higher-quality local voices if available
+        chosen = False
         for voice in engine.getProperty("voices"):
-            if "jamie" in voice.name.lower():
+            name = voice.name.lower()
+            if any(pref in name for pref in VOICE_PREFS):
                 engine.setProperty("voice", voice.id)
+                chosen = True
                 break
-        engine.setProperty("rate", 180)
+        if not chosen and engine.getProperty("voices"):
+            engine.setProperty("voice", engine.getProperty("voices")[0].id)
+        engine.setProperty("rate", 170)
         engine.setProperty("volume", 1.0)
         engine.say(text)
         engine.runAndWait()
@@ -120,7 +130,7 @@ def speak_text(text: str):
 def write():
     conversation_mode = False
     last_interaction_time = None
-    log_event("status", {"message": "Jarvis listening for wake word"})
+    log_event("status", {"message": "Slash listening for wake word"})
 
     try:
         with mic as source:
@@ -133,9 +143,10 @@ def write():
                         transcript = recognizer.recognize_google(audio)
                         logging.info(f"🗣 Heard: {transcript}")
 
-                        if TRIGGER_WORD.lower() in transcript.lower():
+                        heard = transcript.lower()
+                        if any(word in heard for word in TRIGGER_WORDS):
                             logging.info(f"🗣 Triggered by: {transcript}")
-                            speak_text("Yes sir?")
+                            speak_text("Yes?")
                             conversation_mode = True
                             last_interaction_time = time.time()
                             log_event("status", {"message": "Wake word detected"})
@@ -148,6 +159,16 @@ def write():
                         logging.info(f"📥 Command: {command}")
                         log_event("user", {"text": command})
 
+                        cmd_lower = command.lower()
+                        if any(
+                            phrase in cmd_lower
+                            for phrase in ["go idle", "standby", "stop listening", "go to sleep", "return to idle"]
+                        ):
+                            speak_text("Standing by.")
+                            log_event("status", {"message": "Manual idle requested"})
+                            conversation_mode = False
+                            continue
+
                         logging.info("🤖 Sending command to agent...")
                         started = time.time()
                         try:
@@ -157,7 +178,7 @@ def write():
                             latency_ms = (time.time() - started) * 1000.0
                             log_event("assistant", {"text": content, "latency_ms": latency_ms})
 
-                            print("Jarvis:", content)
+                            print("Slash:", content)
                             speak_text(content)
                             last_interaction_time = time.time()
                         except Exception as e:

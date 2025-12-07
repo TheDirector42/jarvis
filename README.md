@@ -1,12 +1,12 @@
-# 🧠 Jarvis – Local Voice-Controlled AI Assistant
+# 🧠 Slash – Local Voice-Controlled AI Assistant
 
-**Jarvis** is a voice-activated, conversational AI assistant powered by a local LLM (Qwen via Ollama). It listens for a wake word, processes spoken commands using a local language model with LangChain, and responds out loud via TTS. It supports tool-calling for dynamic functions like checking the current time.
+**Slash** is a voice-activated, conversational AI assistant powered by a local LLM (Qwen via Ollama). It listens for a wake word, processes spoken commands using a local language model with LangChain, and responds out loud via TTS. It supports tool-calling for dynamic functions like checking the current time.
 
 ---
 
 ## 🚀 Features
 
-- 🗣 Voice-activated with wake word **"Jarvis"**
+- 🗣 Voice-activated with wake word **"Slash"** (accepts "slash" or "/")
 - 🧠 Local language model (Qwen via Ollama)
 - 🔧 Tool-calling with LangChain
 - 🔊 Text-to-speech responses via `pyttsx3`
@@ -25,7 +25,7 @@
 
 2. **Wake Word Listening**
    - Listens via microphone (e.g., `device_index=0`)
-   - If it hears the word **"Jarvis"**, it enters "conversation mode"
+   - If it hears the word **"Slash"**, it enters "conversation mode"
 
 3. **Voice Command Handling**
    - Records the user’s spoken command
@@ -37,7 +37,7 @@
 
 ---
 
-## 🤖 How To Start Jarvis
+## 🤖 How To Start Slash
 
 1. **Install Dependencies**  
    Make sure you have installed all required dependencies listed in `requirements.txt`:
@@ -52,7 +52,7 @@
    ollama run qwen2.5:3b
    ```
 
-3. **Run Jarvis**  
+3. **Run Slash**  
    Start the assistant by running:
    ```bash
    python main.py
@@ -66,7 +66,7 @@
    (The HUD reads live events from `jarvis_events.jsonl`, shared with the voice process.)
 ---
 
-## 💻 Desktop HUD (Jarvis-style overlay)
+## 💻 Desktop HUD (Slash-style overlay)
 
 Want a quick, Tony Stark–style overview? Launch the desktop HUD:
 
@@ -77,7 +77,7 @@ python jarvis_desktop.py
 What it shows:
 - Current model (defaults to `qwen2.5:3b`, tool-capable) and live status of the local LLM
 - Built-in tools (time lookup, search, OCR, screenshot, ARP scan, matrix demo)
-- Live chat feed with Jarvis (local model + tools), with request latency and exchange count
+- Live chat feed with Slash (local model + tools), with request latency and exchange count
 - System vitals (CPU/RAM) and uptime timer
 - Quickstart steps and links to Ollama models and the README
 
